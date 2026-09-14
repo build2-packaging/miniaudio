@@ -1,4 +1,4 @@
-project = libminiaudio
+project = miniaudio
 
 using version
 using config

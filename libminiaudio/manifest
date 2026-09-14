@@ -1,16 +1,20 @@
 : 1
 name: libminiaudio
-version: 0.1.0-a.0.z
+version: 0.11.25-a.0.z
 language: c
-project: build2-miniaudio
-summary: miniaudio C library
-license: other: proprietary ; Not free/open source.
+project: miniaudio
+summary: Audio playback and capture C library
+topics: audio, playback, capture
+license: Unlicense
+license: MIT-0
 description-file: README.md
 package-description-file: PACKAGE-README.md
 changes-file: CHANGES.md
-url: https://example.org/upstream
-email: upstream@example.org
-package-url: https://github.com/build2-packaging/build2-miniaudio
-package-email: packaging@build2.org ; Mailing list.
+url: https://github.com/mackron/miniaudio
+doc-url: https://miniaud.io/docs
+src-url: https://github.com/mackron/miniaudio
+email: mackron@gmail.com
+package-url: https://github.com/build2-packaging/miniaudio
+package-email: packaging@build2.org
 depends: * build2 >= 0.18.0
 depends: * bpkg >= 0.18.0
