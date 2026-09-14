@@ -1,6 +1,6 @@
 : 1
 name: libminiaudio
-version: 0.11.25-a.0.z
+version: 0.11.25
 language: c
 project: miniaudio
 summary: Audio playback and capture C library
