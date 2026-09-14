@@ -18,3 +18,4 @@ package-url: https://github.com/build2-packaging/miniaudio
 package-email: packaging@build2.org
 depends: * build2 >= 0.18.0
 depends: * bpkg >= 0.18.0
+build-exclude: macos**-gcc** ; Homebrew GCC cannot parse Apple Core Audio headers.
