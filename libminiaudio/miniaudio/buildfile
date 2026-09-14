@@ -2,7 +2,16 @@ intf_libs = # Interface dependencies.
 impl_libs = # Implementation dependencies.
 #import xxxx_libs += libhello%lib{hello}
 
-lib{miniaudio}: libul{miniaudio}: {h c}{**} $impl_libs $intf_libs
+# Compile the implementation as Objective-C on iOS, including Apple 32-bit
+# ARM Darwin triples (arm.*).
+#
+ios = ($c.target.class == 'ios' || \
+       ($c.target.vendor == 'apple' && $regex.match($c.target.cpu, 'arm.*')))
+
+lib{miniaudio}: libul{miniaudio}: h{**} c{** -miniaudio} $impl_libs $intf_libs
+
+libul{miniaudio}: c{miniaudio.c}: include = (!$ios)
+libul{miniaudio}: m{miniaudio.c}: include = $ios
 
 libs{miniaudio}: def{miniaudio}: include = ($c.target.system == 'win32-msvc')
 def{miniaudio}: libul{miniaudio}
@@ -20,6 +29,38 @@ lib{miniaudio}:
 {
   c.export.poptions = "-I$out_root" "-I$src_root"
   c.export.libs = $intf_libs
+}
+
+# System libraries (upstream README). Not needed on Windows or macOS/iOS.
+#
+if (!$regex.match($c.target.class, '^(windows|macos|ios)'))
+{
+  c.libs += -pthread -lm
+  lib{miniaudio}: c.export.libs += -pthread -lm
+}
+
+if ($c.target.class == 'linux' || $c.target.class == 'android')
+{
+  c.libs += -ldl
+  lib{miniaudio}: c.export.libs += -ldl
+}
+
+# 32-bit ARM (arm.*) on Linux/Android needs libatomic (upstream CMake).
+#
+if (($c.target.class == 'linux' || $c.target.class == 'android') && \
+    $regex.match($c.target.cpu, 'arm.*'))
+{
+  c.libs += -latomic
+  lib{miniaudio}: c.export.libs += -latomic
+}
+
+# iOS must compile the implementation as Objective-C because the Core Audio
+# backend includes AVFoundation.
+#
+if $ios
+{
+  c.libs += -lobjc
+  lib{miniaudio}: c.export.libs += -lobjc
 }
 
 # For pre-releases use the complete version to make sure they cannot

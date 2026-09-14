@@ -3,6 +3,7 @@
 #c.internal.scope = current
 
 using c
+using c.objc
 
 h{*}: extension = h
 c{*}: extension = c
