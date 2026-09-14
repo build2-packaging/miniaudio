@@ -1,0 +1,3 @@
+import libs = libminiaudio%lib{miniaudio}
+
+exe{driver}: {h c}{**} $libs testscript{**}

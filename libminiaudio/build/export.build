@@ -1,0 +1,6 @@
+$out_root/
+{
+  include miniaudio/
+}
+
+export $out_root/miniaudio/$import.target
