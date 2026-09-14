@@ -5,6 +5,11 @@
 using c
 using c.objc
 
+# Homebrew GCC cannot parse Apple Core Audio headers (Clang blocks syntax).
+#
+if ($c.target.class == 'macos' && $c.id == 'gcc')
+  fail 'macOS requires Clang, GCC cannot parse Apple Core Audio headers'
+
 h{*}: extension = h
 c{*}: extension = c
 
