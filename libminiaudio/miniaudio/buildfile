@@ -22,6 +22,22 @@ def{miniaudio}: libul{miniaudio}
 #
 c.poptions =+ "-I$out_root" "-I$src_root"
 
+# Amalgamated implementation: unused static helpers on backends that do
+# not call them (gcc class includes Clang). -Wstringop-overflow is GNU
+# GCC only, Clang diagnoses -Wno-stringop-overflow as unknown.
+#
+if ($c.class == 'gcc')
+  c.coptions += -Wno-unused-function
+
+if ($c.id == 'gcc')
+  c.coptions += -Wno-stringop-overflow
+
+# cl and clang-cl: uint64 WAV chunk size assigned to a uint32 loop count
+# used only as a sanity check.
+#
+if ($c.class == 'msvc')
+  c.coptions += /wd4244
+
 if ($c.target.system == 'mingw32')
   c.loptions += -Wl,--export-all-symbols
 
