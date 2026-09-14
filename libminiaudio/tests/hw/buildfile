@@ -1,0 +1,4 @@
+import libs = libminiaudio%lib{miniaudio}
+
+exe{driver}: {h c}{**} $libs
+exe{driver}: test = false
