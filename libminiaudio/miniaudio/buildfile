@@ -12,6 +12,8 @@ lib{miniaudio}: libul{miniaudio}: h{**} c{** -miniaudio} $impl_libs $intf_libs
 
 libul{miniaudio}: c{miniaudio.c}: include = (!$ios)
 libul{miniaudio}: m{miniaudio.c}: include = $ios
+c{miniaudio.c}@./: dist = (!$ios)
+m{miniaudio.c}@./: dist = $ios
 
 libs{miniaudio}: def{miniaudio}: include = ($c.target.system == 'win32-msvc')
 def{miniaudio}: libul{miniaudio}
